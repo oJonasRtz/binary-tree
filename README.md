@@ -59,10 +59,3 @@ Akita explanation: https://youtu.be/9GdesxWtOgs?si=d1kXPanv_OcezZTK&t=2148
 	doc - trees/red_black_tree.c
 	executable = trees/executables/red_black
 
-		10
-	   /  \
-	  8   20
-	 / \    \
-	4   9    25
-	        /
-		   21
