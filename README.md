@@ -54,6 +54,8 @@ This is a study of how binary trees and red-black trees work.
 
 # Red Black tree
 
+Link: https://youtu.be/9GdesxWtOgs?si=d1kXPanv_OcezZTK&t=2148
+
 	doc - trees/red_black_tree.c
 	executable = trees/executables/red_black
 
