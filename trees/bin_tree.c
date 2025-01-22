@@ -54,6 +54,7 @@ static void	destroy_tree(t_btree *root){
 	destroy_tree(root->right);
 	free(root);
 }
+
 /*
 	Prints the binary tree in ascending order
 */

@@ -56,3 +56,11 @@ This is a study of how binary trees and red-black trees work.
 
 	doc - trees/red_black_tree.c
 	executable = trees/executables/red_black
+
+		10
+	   /  \
+	  8   20
+	 / \    \
+	4   9    25
+	        /
+		   21
