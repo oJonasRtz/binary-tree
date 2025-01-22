@@ -21,7 +21,7 @@ This is a study of how binary trees and red-black trees work.
 		num = 7;
 
 		Node:
-			7
+		    7
 		   / \
 		NULL NULL
 		
@@ -32,7 +32,7 @@ This is a study of how binary trees and red-black trees work.
 		num = 8;
 
 		Node:
-			7
+		    7
 		   / \
 		NULL  8
 	
@@ -42,7 +42,7 @@ This is a study of how binary trees and red-black trees work.
 		num = 20, 5, 2, 6;
 
 		Node:
-			7
+		    7
 		   / \
 		  5   8
 		 / \   \
