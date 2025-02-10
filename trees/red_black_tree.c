@@ -93,7 +93,7 @@ static void print_tree(t_rbtree *root, int level){
 	print_tree(root->left, level + 1);
 	for (int i = 0; i < level; i++)
 		printf("     ");
-	printf("%d (%s)\n", root->value, root->colour == 'b' ? "Black" : "Red");
+	printf("%d\n", root->value);
 	print_tree(root->right, level + 1);
 }
 
