@@ -30,17 +30,16 @@ int	is_operator(char *str)
 	return (strcmp(str, "|") == 0 || strcmp(str, ">") == 0 || strcmp(str, "<") == 0);
 }
 
-t_ast	*ast_add(t_ast *root, char *args)
+t_ast	*ast_add(t_ast *root, char *args, int index)
 {
 	if (!root)
 		return (ast_create(args));
-	if (strcmp(root->cmd, "|") == 0)
-	{
-		if (!root->left)
-			root->left = ast_add(root->left, args);
-		else
-			root->right = ast_add(root->right, args);
-	}
+	if (strcmp(args, "|") == 0 || index == 0)
+		root->right = ast_add(root->right, args, index);
+	else if (strcmp(root->cmd, "|") == 0 || strcmp(root->cmd, ">") == 0 && !root->left)
+		root->left = ast_add(root->left, args, index);
+	else
+		root->right = ast_add(root->right, args, index);
 	return (root);
 }
 
@@ -78,13 +77,13 @@ void ast_print(t_ast *root, int level){
 
 int	main(void)
 {
-	t_ast	*new;
+	t_ast	*new = NULL;
 
-	new = ast_create("|");
-	new = ast_add(new, "ls -l");
-	new = ast_add(new, "|");
-	new = ast_add(new, "grep Makefile");
-	new = ast_add(new, "wc -w");
+	new = ast_add(new, "|", 1);
+	new = ast_add(new, ">", 3);
+	new = ast_add(new, "text.txt", 1);
+	new = ast_add(new, "grep Makefile", 1);
+	new = ast_add(new, "ls -l", 0);
 	ast_print(new, 0);
 	ast_free(new);
 	return (0);
