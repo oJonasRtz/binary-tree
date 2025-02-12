@@ -5,12 +5,13 @@
 typedef struct s_ast
 {
 	char			*cmd;
+	int				index;
 
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
 
-t_ast	*ast_create(char *args)
+t_ast	*ast_create(char *args, int index, t_ast *right, t_ast *left)
 {
 	t_ast	*new;
 
@@ -20,8 +21,9 @@ t_ast	*ast_create(char *args)
 	if (!new)
 		return (NULL);
 	new->cmd = args;
-	new->left = NULL;
-	new->right = NULL;
+	new->index = index;
+	new->left = left;
+	new->right = right;
 	return (new);
 }
 
@@ -33,13 +35,18 @@ int	is_operator(char *str)
 t_ast	*ast_add(t_ast *root, char *args, int index)
 {
 	if (!root)
-		return (ast_create(args));
-	if (strcmp(args, "|") == 0 || index == 0)
+		return (ast_create(args, index, NULL, NULL));
+	if (strcmp(args, "|") == 0 && strcmp(root->cmd, "|") != 0)
+	{
+		if (index > root->index)
+			return (ast_create(args, index, NULL, root));
+		else
+			return (ast_create(args, index, root, NULL));
+	}
+	if (index > root->index)
 		root->right = ast_add(root->right, args, index);
-	else if (strcmp(root->cmd, "|") == 0 || strcmp(root->cmd, ">") == 0 && !root->left)
-		root->left = ast_add(root->left, args, index);
 	else
-		root->right = ast_add(root->right, args, index);
+		root->left = ast_add(root->left, args, index);
 	return (root);
 }
 
@@ -71,20 +78,24 @@ void ast_print(t_ast *root, int level){
 	ast_print(root->left, level + 1);
 	for (int i = 0; i < level; i++)
 		printf("     ");
-	printf("%s \n", root->cmd);
+	printf("%s (%d)\n", root->cmd, root->index);
 	ast_print(root->right, level + 1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	int		i = 0;
 	t_ast	*new = NULL;
 
-	new = ast_add(new, "|", 1);
-	new = ast_add(new, ">", 3);
-	new = ast_add(new, "text.txt", 1);
-	new = ast_add(new, "grep Makefile", 1);
-	new = ast_add(new, "ls -l", 0);
+	if (argc == 1)
+		return (0);
+	while (argv[++i])
+		new = ast_add(new, argv[i], argc - i - 1);
 	ast_print(new, 0);
 	ast_free(new);
 	return (0);
 }
+
+	// 	|
+	// 			>
+	// ls		grep	text
